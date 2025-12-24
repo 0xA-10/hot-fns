@@ -1,5 +1,5 @@
 {
-  "name": "hot-utils",
+  "name": "hot-fns",
   "version": "0.1.2",
   "description": "Utilities optimized for hot paths - more efficient than lodash equivalents.",
   "keywords": [

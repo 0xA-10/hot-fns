@@ -1,9 +1,9 @@
-# hot-utils
+# hot-fns
 
 Lightweight, zero-dependency utility functions optimized for hot paths.
 
 ```bash
-npm install hot-utils
+npm install hot-fns
 ```
 
 ## Philosophy
@@ -24,7 +24,7 @@ If a utility isn't measurably faster or more memory efficient, it's not here. Us
 ## Quick Start
 
 ```typescript
-import { groupByHot, partitionHot, mapValuesHot, evolveHot } from 'hot-utils';
+import { groupByHot, partitionHot, mapValuesHot, evolveHot } from 'hot-fns';
 
 // Single-pass grouping (returns Map by default)
 const byStatus = groupByHot(orders, 'status');
@@ -41,7 +41,7 @@ const doubled = mapValuesHot(prices, v => v * 2);
 // Ramda-style evolve for nested transformations
 const updated = evolveHot(
   { name: s => s.toUpperCase(), data: { count: n => n + 1 } },
-  { name: 'foo', data: { count: 5 }, other: true }
+  { name: 'foo', data: { count: 5 }, other: true },
 );
 // => { name: 'FOO', data: { count: 6 }, other: true }
 ```
@@ -50,13 +50,13 @@ const updated = evolveHot(
 
 ```typescript
 // Main entry - all utilities
-import { groupByHot, partitionHot } from 'hot-utils';
+import { groupByHot, partitionHot } from 'hot-fns';
 
 // Subpath imports - array utilities only
-import { partitionHot, intersectionHot } from 'hot-utils/array';
+import { partitionHot, intersectionHot } from 'hot-fns/array';
 
 // Subpath imports - object utilities only
-import { groupByHot, mapKeysHot } from 'hot-utils/object';
+import { groupByHot, mapKeysHot } from 'hot-fns/object';
 ```
 
 ## API
@@ -72,19 +72,19 @@ import { groupByHot, mapKeysHot } from 'hot-utils/object';
 
 ### Object
 
-| Function                              | Description                                |
-| ------------------------------------- | ------------------------------------------ |
-| `countByHot(arr, iteratee)`           | Count occurrences by key                   |
-| `evolveHot(spec, obj)`                | Ramda-style recursive transformations      |
-| `groupByHot(arr, iteratee, asObj)`    | Group by key (Map default, Object if true) |
-| `indexByHot(arr, iteratee)`           | Create lookup table                        |
-| `mapKeysHot(obj, mapper)`             | Transform object keys (no Object.keys())   |
-| `mapObjectHot(obj, keyFn, valueFn)`   | Transform both keys and values             |
-| `mapValuesHot(obj, mapper)`           | Transform object values (no Object.keys()) |
-| `omitHot(obj, keys)`                  | Exclude keys (Set-based O(1) lookup)       |
-| `omitByHot(obj, predicate)`           | Exclude by predicate                       |
-| `pickHot(obj, keys)`                  | Select keys                                |
-| `pickByHot(obj, predicate)`           | Select by predicate                        |
+| Function                            | Description                                |
+| ----------------------------------- | ------------------------------------------ |
+| `countByHot(arr, iteratee)`         | Count occurrences by key                   |
+| `evolveHot(spec, obj)`              | Ramda-style recursive transformations      |
+| `groupByHot(arr, iteratee, asObj)`  | Group by key (Map default, Object if true) |
+| `indexByHot(arr, iteratee)`         | Create lookup table                        |
+| `mapKeysHot(obj, mapper)`           | Transform object keys (no Object.keys())   |
+| `mapObjectHot(obj, keyFn, valueFn)` | Transform both keys and values             |
+| `mapValuesHot(obj, mapper)`         | Transform object values (no Object.keys()) |
+| `omitHot(obj, keys)`                | Exclude keys (Set-based O(1) lookup)       |
+| `omitByHot(obj, predicate)`         | Exclude by predicate                       |
+| `pickHot(obj, keys)`                | Select keys                                |
+| `pickByHot(obj, predicate)`         | Select by predicate                        |
 
 ## Iteratee Shorthand
 
