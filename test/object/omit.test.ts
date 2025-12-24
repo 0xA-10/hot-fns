@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { omitHot, omitByHot } from '../../src/object/omit.js';
+import { omitByHot, omitHot } from '../../src/object/omit.js';
 
 describe('omitHot', () => {
   it('omits specified keys', () => {
@@ -25,7 +25,7 @@ describe('omitHot', () => {
 
 describe('omitByHot', () => {
   it('omits by predicate', () => {
-    expect(omitByHot({ a: 1, b: null, c: 3 }, v => v == null)).toEqual({ a: 1, c: 3 });
+    expect(omitByHot({ a: 1, b: null, c: 3 }, v => v === null)).toEqual({ a: 1, c: 3 });
   });
 
   it('omits values matching condition', () => {

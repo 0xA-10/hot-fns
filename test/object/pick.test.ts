@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { pickHot, pickByHot } from '../../src/object/pick.js';
+import { pickByHot, pickHot } from '../../src/object/pick.js';
 
 describe('pickHot', () => {
   it('picks specified keys', () => {
@@ -25,7 +25,7 @@ describe('pickHot', () => {
 
 describe('pickByHot', () => {
   it('picks by predicate', () => {
-    expect(pickByHot({ a: 1, b: null, c: 3 }, v => v != null)).toEqual({ a: 1, c: 3 });
+    expect(pickByHot({ a: 1, b: null, c: 3 }, v => v !== null)).toEqual({ a: 1, c: 3 });
   });
 
   it('picks values matching condition', () => {

@@ -2,9 +2,7 @@
  * Transformation spec where each value is either a function or nested spec.
  */
 export type Evolver<T> = {
-  [K in keyof T]?: T[K] extends object
-    ? Evolver<T[K]> | ((value: T[K]) => T[K])
-    : (value: T[K]) => T[K];
+  [K in keyof T]?: T[K] extends object ? Evolver<T[K]> | ((value: T[K]) => T[K]) : (value: T[K]) => T[K];
 };
 
 /**
@@ -36,20 +34,14 @@ export function evolveHot<T extends object>(transformations: Evolver<T>, obj: T)
       if (transformation === undefined) {
         result[key] = value;
       } else if (typeof transformation === 'function') {
-        result[key] = (transformation as (v: unknown) => unknown)(value) as T[Extract<
-          keyof T,
-          string
-        >];
+        result[key] = (transformation as (v: unknown) => unknown)(value) as T[Extract<keyof T, string>];
       } else if (
         typeof transformation === 'object' &&
         transformation !== null &&
         typeof value === 'object' &&
         value !== null
       ) {
-        result[key] = evolveHot(
-          transformation as Evolver<object>,
-          value as object,
-        ) as T[Extract<keyof T, string>];
+        result[key] = evolveHot(transformation as Evolver<object>, value as object) as T[Extract<keyof T, string>];
       } else {
         result[key] = value;
       }

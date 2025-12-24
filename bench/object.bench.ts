@@ -19,9 +19,7 @@ const objectArray = Array.from({ length: 10000 }, (_, i) => ({
   group: String(i % 10),
   value: i,
 }));
-const simpleObject = Object.fromEntries(
-  Array.from({ length: 100 }, (_, i) => [`key${i}`, i])
-);
+const simpleObject = Object.fromEntries(Array.from({ length: 100 }, (_, i) => [`key${i}`, i]));
 const keysToOmit = ['key1', 'key2', 'key3', 'key4', 'key5'] as const;
 const keysToPick = ['key1', 'key2', 'key3', 'key4', 'key5'] as const;
 const evolveObject = { a: 1, b: 2, c: { d: 3, e: 4 }, f: 'hello' };
