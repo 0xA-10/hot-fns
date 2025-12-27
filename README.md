@@ -106,7 +106,3 @@ pnpm version patch|minor|major
 pnpm build
 npm publish
 ```
-
-## License
-
-GPLv3
