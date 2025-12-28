@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { pickByHot, pickHot } from '../../src/object/pick.js';
+import { pickByHot, pickByHotFast, pickHot } from '../../src/object/pick.js';
 
 describe('pickHot', () => {
   it('picks specified keys', () => {
@@ -42,5 +42,27 @@ describe('pickByHot', () => {
 
   it('handles none picked', () => {
     expect(pickByHot({ a: 1, b: 2 }, () => false)).toEqual({});
+  });
+});
+
+describe('pickByHotFast', () => {
+  it('picks by predicate', () => {
+    expect(pickByHotFast({ a: 1, b: null, c: 3 }, v => v !== null)).toEqual({ a: 1, c: 3 });
+  });
+
+  it('picks values matching condition', () => {
+    expect(pickByHotFast({ a: 1, b: 2, c: 3 }, v => (v as number) > 1)).toEqual({ b: 2, c: 3 });
+  });
+
+  it('provides key to predicate', () => {
+    expect(pickByHotFast({ a: 1, b: 2 }, (_, k) => k === 'a')).toEqual({ a: 1 });
+  });
+
+  it('handles all picked', () => {
+    expect(pickByHotFast({ a: 1, b: 2 }, () => true)).toEqual({ a: 1, b: 2 });
+  });
+
+  it('handles none picked', () => {
+    expect(pickByHotFast({ a: 1, b: 2 }, () => false)).toEqual({});
   });
 });

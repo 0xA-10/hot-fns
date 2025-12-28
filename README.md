@@ -63,12 +63,12 @@ import { groupByHot, mapKeysHot } from 'hot-fns/object';
 
 ### Array
 
-| Function                                  | Description                                         |
-| ----------------------------------------- | --------------------------------------------------- |
-| `intersectionHot(...arrays)`              | Common elements (smallest-array-first optimization) |
-| `intersectionByHot(arr1, arr2, iteratee)` | Intersection with custom key                        |
-| `partitionHot(arr, predicate)`            | Split by predicate (single-pass)                    |
-| `uniqueByKeyHot(arr, iteratee)`           | Dedupe by key (Map-based O(n))                      |
+| Function                                    | Description                                         |
+| ------------------------------------------- | --------------------------------------------------- |
+| `intersectionHot(...arrays)`                | Common elements (smallest-array-first optimization) |
+| `intersectionByHot(...arrays, iteratee)`    | Intersection with custom key (variadic)             |
+| `partitionHot(arr, predicate)`              | Split by predicate (single-pass)                    |
+| `uniqueByKeyHot(arr, iteratee)`             | Dedupe by key (Map-based O(n))                      |
 
 ### Object
 
@@ -179,6 +179,39 @@ groupByHot(users, 'role'); // string shorthand
 groupByHot(users, u => u.role); // function
 uniqueByKeyHot(items, 'nested.id'); // deep path
 ```
+
+## Benchmarks
+
+### Running Benchmarks
+
+```bash
+pnpm bench              # Run performance benchmarks
+pnpm bench:compare      # Compare against lodash/radash/ramda
+pnpm bench:memory       # Run memory benchmarks
+```
+
+### Methodology
+
+**Speed benchmarks** use [tinybench](https://github.com/tinylibs/tinybench):
+- 1000ms per benchmark
+- Reports ops/sec and margin of error
+
+**Memory benchmarks** use deterministic single-operation measurement:
+- Forced GC before and after each operation
+- 15 runs per test, median reported
+- Measures heap delta for a single function call
+
+**Comparison libraries** (versions tested):
+- lodash 4.17.21
+- radash 12.1.1
+- ramda 0.32.0
+
+### CI Integration
+
+Benchmarks run on every PR with regression detection:
+- Baseline generated on `main` branch
+- PRs compared against baseline
+- >15% slowdown triggers failure
 
 ## Publishing
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { evolveHot } from '../../src/object/evolve.js';
+import { evolveHot, evolveHotFast } from '../../src/object/evolve.js';
 
 describe('evolveHot', () => {
   it('applies transformations to matching properties', () => {
@@ -154,5 +154,65 @@ describe('evolveHot', () => {
       obj,
     );
     expect(result).toEqual({ items: [2, 4, 6], name: 'list' });
+  });
+});
+
+describe('evolveHotFast', () => {
+  it('applies transformations to matching properties', () => {
+    const obj = { a: 1, b: 2 };
+    const result = evolveHotFast({ a: (x: number) => x * 10 }, obj);
+    expect(result).toEqual({ a: 10, b: 2 });
+  });
+
+  it('handles multiple transformations', () => {
+    const obj = { name: 'foo', count: 5 };
+    const result = evolveHotFast(
+      {
+        name: (s: string) => s.toUpperCase(),
+        count: (n: number) => n + 1,
+      },
+      obj,
+    );
+    expect(result).toEqual({ name: 'FOO', count: 6 });
+  });
+
+  it('leaves untransformed properties unchanged', () => {
+    const obj = { a: 1, b: 2, c: 3 };
+    const result = evolveHotFast({ a: (x: number) => x * 10 }, obj);
+    expect(result).toEqual({ a: 10, b: 2, c: 3 });
+  });
+
+  it('handles nested transformations', () => {
+    const obj = {
+      name: 'test',
+      data: {
+        count: 5,
+        flag: true,
+      },
+    };
+    const result = evolveHotFast(
+      {
+        data: {
+          count: (n: number) => n + 1,
+        },
+      },
+      obj,
+    );
+    expect(result).toEqual({
+      name: 'test',
+      data: {
+        count: 6,
+        flag: true,
+      },
+    });
+  });
+
+  it('handles empty objects', () => {
+    expect(evolveHotFast({}, {})).toEqual({});
+  });
+
+  it('handles empty transformations', () => {
+    const obj = { a: 1, b: 2 };
+    expect(evolveHotFast({}, obj)).toEqual({ a: 1, b: 2 });
   });
 });
