@@ -34,7 +34,7 @@ async function runBenchmarks(): Promise<BenchResult[]> {
     await suite.run();
 
     for (const task of suite.tasks) {
-      if (task.result) {
+      if (task.result && 'throughput' in task.result) {
         results.push({
           name: task.name,
           opsPerSec: task.result.throughput.mean,
@@ -68,7 +68,7 @@ async function runComparisonBenchmarks(): Promise<void> {
     await suite.run();
 
     for (const task of suite.tasks) {
-      if (task.result) {
+      if (task.result && 'throughput' in task.result) {
         // Parse "operation: library" format
         const [operation, library] = task.name.split(': ');
         results.push({

@@ -259,14 +259,14 @@ async function main(): Promise<BenchmarkSummary> {
   // MapKeys
   comparisons.push(
     runComparison('mapKeys (100 keys)', [
-      { name: 'hot-fns', fn: () => mapKeysHot(simpleObject, k => k.toUpperCase()) },
+      { name: 'hot-fns', fn: () => mapKeysHot(simpleObject, k => String(k).toUpperCase()) },
       {
         name: 'lodash',
-        fn: () => _.mapKeys(simpleObject, (_v, k) => k.toUpperCase()),
+        fn: () => _.mapKeys(simpleObject, (_v, k) => String(k).toUpperCase()),
       },
       {
         name: 'radash',
-        fn: () => radash.mapKeys(simpleObject, k => k.toUpperCase()),
+        fn: () => radash.mapKeys(simpleObject, k => String(k).toUpperCase()),
       },
     ]),
   );

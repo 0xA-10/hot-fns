@@ -19,7 +19,7 @@ describe('toIteratee', () => {
   });
 
   it('handles undefined in deep path', () => {
-    const iteratee = toIteratee<{ user?: { name?: string } }, string | undefined>('user.name');
+    const iteratee = toIteratee<{ user?: { name?: string } | undefined }, string | undefined>('user.name');
     expect(iteratee({ user: undefined }, 0)).toBeUndefined();
     expect(iteratee({}, 0)).toBeUndefined();
   });

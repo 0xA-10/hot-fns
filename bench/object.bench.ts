@@ -2,11 +2,15 @@ import { Bench } from 'tinybench';
 import {
   countByHot,
   evolveHot,
+  evolveHotFast,
   groupByHot,
   indexByHot,
   mapKeysHot,
+  mapKeysHotFast,
   mapObjectHot,
+  mapObjectHotFast,
   mapValuesHot,
+  mapValuesHotFast,
   omitHot,
   pickHot,
 } from '../src/index.js';
@@ -46,7 +50,7 @@ suite
     countByHot(objectArray, x => x.group);
   })
   .add('mapKeysHot (100 keys)', () => {
-    mapKeysHot(simpleObject, k => k.toUpperCase());
+    mapKeysHot(simpleObject, k => String(k).toUpperCase());
   })
   .add('mapValuesHot (100 keys)', () => {
     mapValuesHot(simpleObject, v => v * 2);
@@ -54,7 +58,7 @@ suite
   .add('mapObjectHot (100 keys)', () => {
     mapObjectHot(
       simpleObject,
-      k => k.toUpperCase(),
+      k => String(k).toUpperCase(),
       v => v * 2,
     );
   })
@@ -66,4 +70,21 @@ suite
   })
   .add('evolveHot (nested)', () => {
     evolveHot(evolveSpec, evolveObject);
+  })
+  // HotFast variants - use Object.keys() for ~15% speed boost at O(n) memory cost
+  .add('mapKeysHotFast (100 keys)', () => {
+    mapKeysHotFast(simpleObject, k => String(k).toUpperCase());
+  })
+  .add('mapValuesHotFast (100 keys)', () => {
+    mapValuesHotFast(simpleObject, v => v * 2);
+  })
+  .add('mapObjectHotFast (100 keys)', () => {
+    mapObjectHotFast(
+      simpleObject,
+      k => String(k).toUpperCase(),
+      v => v * 2,
+    );
+  })
+  .add('evolveHotFast (nested)', () => {
+    evolveHotFast(evolveSpec, evolveObject);
   });

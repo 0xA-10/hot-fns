@@ -150,13 +150,13 @@ objectSuite
 
   // mapKeys
   .add('mapKeys: hot-fns', () => {
-    mapKeysHot(simpleObject, k => k.toUpperCase());
+    mapKeysHot(simpleObject, k => String(k).toUpperCase());
   })
   .add('mapKeys: lodash', () => {
-    _.mapKeys(simpleObject, (_v, k) => k.toUpperCase());
+    _.mapKeys(simpleObject, (_v, k) => String(k).toUpperCase());
   })
   .add('mapKeys: radash', () => {
-    radash.mapKeys(simpleObject, k => k.toUpperCase());
+    radash.mapKeys(simpleObject, k => String(k).toUpperCase());
   })
 
   // mapValues

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { omitByHot, omitHot } from '../../src/object/omit.js';
+import { omitByHot, omitByHotFast, omitHot } from '../../src/object/omit.js';
 
 describe('omitHot', () => {
   it('omits specified keys', () => {
@@ -42,5 +42,27 @@ describe('omitByHot', () => {
 
   it('handles none omitted', () => {
     expect(omitByHot({ a: 1, b: 2 }, () => false)).toEqual({ a: 1, b: 2 });
+  });
+});
+
+describe('omitByHotFast', () => {
+  it('omits by predicate', () => {
+    expect(omitByHotFast({ a: 1, b: null, c: 3 }, v => v === null)).toEqual({ a: 1, c: 3 });
+  });
+
+  it('omits values matching condition', () => {
+    expect(omitByHotFast({ a: 1, b: 2, c: 3 }, v => (v as number) > 1)).toEqual({ a: 1 });
+  });
+
+  it('provides key to predicate', () => {
+    expect(omitByHotFast({ a: 1, b: 2 }, (_, k) => k === 'a')).toEqual({ b: 2 });
+  });
+
+  it('handles all omitted', () => {
+    expect(omitByHotFast({ a: 1, b: 2 }, () => true)).toEqual({});
+  });
+
+  it('handles none omitted', () => {
+    expect(omitByHotFast({ a: 1, b: 2 }, () => false)).toEqual({ a: 1, b: 2 });
   });
 });
